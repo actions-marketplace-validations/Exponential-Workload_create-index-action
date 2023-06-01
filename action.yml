@@ -8,7 +8,7 @@ inputs:
   path:
     description: 'The path to the executable'
     required: false
-    default: ~/index-${{runner.os == 'Linux' && 'linux' || runner.os == 'Windows' && 'win.exe' || 'macos'}}
+    default: ${{runner.os=='Windows'&&'C:'||''}}/create-index-${{runner.os == 'Linux' && 'linux' || runner.os == 'Windows' && 'win.exe' || 'macos'}}
   shell:
     description: 'The shell to use'
     required: false
