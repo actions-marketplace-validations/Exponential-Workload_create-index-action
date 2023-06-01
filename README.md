@@ -1,4 +1,4 @@
-# create-index-action
+# [![create-index-action](https://exponential-workload.github.io/create-index-action/banner.png)](https://github.com/marketplace/actions/create-indexes)
 
 Action for [create-autoindex](https://npm.im/create-autoindex) & [@3xpo/create-index](https://npm.im/@3xpo/create-index) using [create-index-bin](https://github.com/Exponential-Workload/create-index-bin/tree/master).
 
