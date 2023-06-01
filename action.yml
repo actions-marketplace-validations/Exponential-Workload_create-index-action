@@ -9,31 +9,27 @@ inputs:
     description: 'The path to the executable'
     required: false
     default: ${{runner.os=='Windows'&&'C:'||''}}/create-index-${{runner.os == 'Linux' && 'linux' || runner.os == 'Windows' && 'win.exe' || 'macos'}}
-  shell:
-    description: 'The shell to use'
-    required: false
-    default: ${{runner.os == 'Linux' && 'bash' || runner.os == 'Windows' && 'cmd.exe' || 'sh'}}
 runs:
   using: "composite"
   steps:
     - name: Download Executable
-      run: ${{runner.os=='Windows' && '' || 'sudo '}}curl -o "${{ inputs.path }}" "${{ inputs.source }}"
-      if: runner.os != 'macOS'
-      shell: ${{ inputs.shell }}
+      run: sudo curl -o "${{ inputs.path }}" "${{ inputs.source }}"
+      if: runner.os != 'Windows'
+      shell: zsh
     - name: Change Permissions
-      if: runner.os != 'Windows' && runner.os != 'macOS'
+      if: runner.os != 'Windows'
       run: |
         sudo chmod 777 "${{ inputs.path }}"
-      shell: ${{ inputs.shell }}
+      shell: zsh
     - name: Run Executable
-      if: runner.os != 'macOS'
+      if: runner.os != 'Windows'
       run: |
-        "${{ inputs.path }}"
-      shell: ${{ inputs.shell }}
-    - name: Run action under MacOS
-      if: runner.os == 'macOS'
-      run: |
-        sudo curl -o "${{ inputs.path }}" "${{ inputs.source }}"
-        sudo chmod 777 "${{ inputs.path }}"
         "${{ inputs.path }}"
       shell: zsh
+    - name: Run action under Windows
+      if: runner.os == 'Windows'
+      run: |
+        curl -o "${{ inputs.path }}" "${{ inputs.source }}"
+        chmod 777 "${{ inputs.path }}"
+        "${{ inputs.path }}"
+      shell: cmd
