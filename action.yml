@@ -9,6 +9,10 @@ inputs:
     description: 'The path to the executable'
     required: false
     default: ${{runner.os=='Windows'&&'C:'||runner.os=='macOS'&&'/Users/runner/work'||'/home/runner/work'}}/create-index-${{runner.os == 'Linux' && 'linux' || runner.os == 'Windows' && 'win.exe' || 'macos'}}
+  dir:
+    description: 'Directory to index'
+    required: false
+    default: '.'
 runs:
   using: "composite"
   steps:
@@ -24,12 +28,12 @@ runs:
     - name: Run Executable
       if: runner.os != 'Windows'
       run: |
-        "${{ inputs.path }}"
+        "${{ inputs.path }}" build "${{inputs.dir}}"
       shell: bash
     - name: Run action under Windows
       if: runner.os == 'Windows'
       run: |
         curl -o "${{ inputs.path }}" "${{ inputs.source }}"
         chmod 777 "${{ inputs.path }}"
-        "${{ inputs.path }}"
+        "${{ inputs.path }}" build "${{inputs.dir}}"
       shell: cmd
