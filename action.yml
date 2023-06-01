@@ -12,15 +12,15 @@ inputs:
   shell:
     description: 'The shell to use'
     required: false
-    default: ${{runner.os == 'Linux' && 'bash' || runner.os == 'Windows' && 'cmd.exe' || 'zsh'}}
+    default: ${{runner.os == 'Linux' && 'bash' || runner.os == 'Windows' && 'cmd.exe' || os.runner == 'macOS' && 'zsh' || 'sh'}}
 runs:
   using: "composite"
   steps:
     - name: Download Executable
-      run: sudo curl -o "${{ inputs.path }}" "${{ inputs.source }}"
+      run: ${{runner.os=='Windows' && '' || 'sudo '}}curl -o "${{ inputs.path }}" "${{ inputs.source }}"
       shell: ${{ inputs.shell }}
     - name: Run Executable
       run: |
-        sudo chmod 777 "${{ inputs.path }}"
+        ${{runner.os=='Windows' && '' || 'sudo chmod 777 "${{ inputs.path }}"'}}
         "${{ inputs.path }}"
       shell: ${{ inputs.shell }}
