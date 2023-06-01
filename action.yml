@@ -8,22 +8,18 @@ inputs:
   path:
     description: 'The path to the executable'
     required: false
-    default: ${{runner.os=='Windows'&&'C:'||''}}/create-index-${{runner.os == 'Linux' && 'linux' || runner.os == 'Windows' && 'win.exe' || 'macos'}}
+    default: ${{runner.os=='Windows'&&'C:'||runner.os=='macOS'&&'/Users/runner/work'||'/home/runner/work'}}/create-index-${{runner.os == 'Linux' && 'linux' || runner.os == 'Windows' && 'win.exe' || 'macos'}}
 runs:
   using: "composite"
   steps:
-    - name: Get cwd
-      if: runner.os != 'Windows'
-      run: pwd
-      shell: bash
     - name: Download Executable
-      run: sudo curl -o "${{ inputs.path }}" "${{ inputs.source }}"
+      run: curl -o "${{ inputs.path }}" "${{ inputs.source }}"
       if: runner.os != 'Windows'
       shell: bash
     - name: Change Permissions
       if: runner.os != 'Windows'
       run: |
-        sudo chmod 777 "${{ inputs.path }}"
+        chmod 777 "${{ inputs.path }}"
       shell: bash
     - name: Run Executable
       if: runner.os != 'Windows'
