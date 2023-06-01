@@ -15,17 +15,17 @@ runs:
     - name: Download Executable
       run: sudo curl -o "${{ inputs.path }}" "${{ inputs.source }}"
       if: runner.os != 'Windows'
-      shell: zsh
+      shell: bash
     - name: Change Permissions
       if: runner.os != 'Windows'
       run: |
         sudo chmod 777 "${{ inputs.path }}"
-      shell: zsh
+      shell: bash
     - name: Run Executable
       if: runner.os != 'Windows'
       run: |
         "${{ inputs.path }}"
-      shell: zsh
+      shell: bash
     - name: Run action under Windows
       if: runner.os == 'Windows'
       run: |
