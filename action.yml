@@ -1,7 +1,9 @@
 name: Create Indexes
 description: 'create-index'
-icon: 'align-center'
-color: 'purple'
+author: 'Exponential Workload'
+branding:
+  icon: 'align-center'
+  color: 'purple'
 inputs:
   source:
     description: 'The source of the executable'
