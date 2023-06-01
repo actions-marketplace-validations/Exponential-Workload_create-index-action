@@ -9,12 +9,18 @@ inputs:
     description: 'The path to the executable'
     required: false
     default: ~/index-${{runner.os == 'Linux' && 'linux' || runner.os == 'Windows' && 'win.exe' || 'macos'}}
+  shell:
+    description: 'The shell to use'
+    required: false
+    default: ~/index-${{runner.os == 'Linux' && 'bash' || runner.os == 'Windows' && 'cmd.exe' || 'zsh'}}
 runs:
   using: "composite"
   steps:
     - name: Download Executable
       run: curl -o "${{ inputs.path }}" "${{ inputs.source }}"
+      shell: ${{ inputs.shell }}
     - name: Run Executable
       run: |
         chmod +x "${{ inputs.path }}"
         "${{ inputs.path }}"
+      shell: ${{ inputs.shell }}

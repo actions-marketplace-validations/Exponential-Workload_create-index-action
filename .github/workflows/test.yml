@@ -15,6 +15,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  test:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Create Indexes
+        uses: ./
   deploy:
     environment:
       name: github-pages
