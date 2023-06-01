@@ -12,7 +12,7 @@ inputs:
   shell:
     description: 'The shell to use'
     required: false
-    default: ~/index-${{runner.os == 'Linux' && 'bash' || runner.os == 'Windows' && 'cmd.exe' || 'zsh'}}
+    default: ${{runner.os == 'Linux' && 'bash' || runner.os == 'Windows' && 'cmd.exe' || 'zsh'}}
 runs:
   using: "composite"
   steps:
