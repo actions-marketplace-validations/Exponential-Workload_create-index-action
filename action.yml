@@ -12,7 +12,7 @@ inputs:
   shell:
     description: 'The shell to use'
     required: false
-    default: ${{runner.os == 'Linux' && 'bash' || runner.os == 'Windows' && 'cmd.exe' || os.runner == 'macOS' && 'zsh' || 'sh'}}
+    default: ${{runner.os == 'Linux' && 'bash' || runner.os == 'Windows' && 'cmd.exe' || runner.os == 'macOS' && 'zsh' || 'sh'}}
 runs:
   using: "composite"
   steps:
