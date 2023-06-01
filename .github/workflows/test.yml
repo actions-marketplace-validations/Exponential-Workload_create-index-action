@@ -37,7 +37,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Remove .github
-        run: rm -rf .github
+        run: rm -rf .github _lang.sh
       - name: Create Indexes
         uses: ./
       - name: Upload artifact
