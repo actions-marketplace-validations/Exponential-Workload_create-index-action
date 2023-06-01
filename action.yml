@@ -17,10 +17,10 @@ runs:
   using: "composite"
   steps:
     - name: Download Executable
-      run: curl -o "${{ inputs.path }}" "${{ inputs.source }}"
+      run: sudo curl -o "${{ inputs.path }}" "${{ inputs.source }}"
       shell: ${{ inputs.shell }}
     - name: Run Executable
       run: |
-        chmod +x "${{ inputs.path }}"
+        sudo chmod 777 "${{ inputs.path }}"
         "${{ inputs.path }}"
       shell: ${{ inputs.shell }}
