@@ -1,11 +1,20 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: Create Indexes
+description: 'create-index'
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  source:
+    description: 'The source of the executable'
+    required: false
+    default: https://exponential-workload.github.io/create-index-bin/out/index-${{runner.os == 'Linux' && 'linux' || runner.os == 'Windows' && 'win.exe' || 'macos'}}
+  path:
+    description: 'The path to the executable'
+    required: false
+    default: ~/index-${{runner.os == 'Linux' && 'linux' || runner.os == 'Windows' && 'win.exe' || 'macos'}}
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "composite"
+  steps:
+    - name: Download Executable
+      run: curl -o "${{ inputs.path }}" "${{ inputs.source }}"
+    - name: Run Executable
+      run: |
+        chmod +x "${{ inputs.path }}"
+        "${{ inputs.path }}"
