@@ -12,19 +12,28 @@ inputs:
   shell:
     description: 'The shell to use'
     required: false
-    default: ${{runner.os == 'Linux' && 'bash' || runner.os == 'Windows' && 'cmd.exe' || runner.os == 'macOS' && 'zsh' || 'sh'}}
+    default: ${{runner.os == 'Linux' && 'bash' || runner.os == 'Windows' && 'cmd.exe' || 'sh'}}
 runs:
   using: "composite"
   steps:
     - name: Download Executable
       run: ${{runner.os=='Windows' && '' || 'sudo '}}curl -o "${{ inputs.path }}" "${{ inputs.source }}"
+      if: runner.os != 'macOS'
       shell: ${{ inputs.shell }}
     - name: Change Permissions
-      if: runner.os != 'Windows'
+      if: runner.os != 'Windows' && runner.os != 'macOS'
       run: |
         sudo chmod 777 "${{ inputs.path }}"
       shell: ${{ inputs.shell }}
     - name: Run Executable
+      if: runner.os != 'macOS'
       run: |
         "${{ inputs.path }}"
       shell: ${{ inputs.shell }}
+    - name: Run action under MacOS
+      if: runner.os == 'macOS'
+      run: |
+        sudo curl -o "${{ inputs.path }}" "${{ inputs.source }}"
+        sudo chmod 777 "${{ inputs.path }}"
+        "${{ inputs.path }}"
+      shell: zsh
