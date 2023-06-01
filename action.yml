@@ -12,6 +12,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Get cwd
+      if: runner.os != 'Windows'
+      run: pwd
+      shell: bash
     - name: Download Executable
       run: sudo curl -o "${{ inputs.path }}" "${{ inputs.source }}"
       if: runner.os != 'Windows'
